@@ -1,4 +1,5 @@
 ﻿using ComKit.Core;
+using ComKit.Core.Cli;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,12 +24,17 @@ namespace ComLs
 
         static void Main(string[] args)
         {
-            var a = new ArgumentsParser();
+            var parser = new ArgumentsParser();
+            parser.Parse(args);
 
-            //a.Parse(args);
-
-            //PrintBasicList();
-            PrintDetailList(false);
+            if (parser.CheckFlag("a"))
+            {
+                PrintDetailList(false);
+            }
+            else
+            {
+                PrintBasicList();
+            }
         }
 
         private static void PrintOnlyNames()
@@ -121,4 +127,5 @@ namespace ComLs
             }
         }
     }
+
 }

@@ -11,6 +11,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Apps", "Apps", "{A6768F0F-B
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ComMonitor", "ComMonitor\ComMonitor.csproj", "{1770E9E4-CA70-4005-B444-70D3CFBCC58A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.Tests", "Core.Tests\Core.Tests.csproj", "{D54C16F9-E522-4451-ABA6-020B0384291A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,6 +31,10 @@ Global
 		{1770E9E4-CA70-4005-B444-70D3CFBCC58A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1770E9E4-CA70-4005-B444-70D3CFBCC58A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1770E9E4-CA70-4005-B444-70D3CFBCC58A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D54C16F9-E522-4451-ABA6-020B0384291A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D54C16F9-E522-4451-ABA6-020B0384291A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D54C16F9-E522-4451-ABA6-020B0384291A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D54C16F9-E522-4451-ABA6-020B0384291A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
