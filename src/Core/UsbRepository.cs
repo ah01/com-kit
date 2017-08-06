@@ -17,12 +17,20 @@ namespace ComKit.Core
 
         static Dictionary<int, VendorInfo> vendors;
 
+        private static string GetUsbFilePath()
+        {
+            var exePath = System.Reflection.Assembly.GetEntryAssembly().Location;
+            var root = Path.GetDirectoryName(exePath);
+
+            return Path.Combine(root, "usb-data/usb.ids");
+        }
+
         private static void LoadFile()
         {
             vendors = new Dictionary<int, VendorInfo>();
 
             // http://www.linux-usb.org/usb-ids.html
-            var path = @"c:\Users\AdamHorcica\Dropbox\Pracovni\Dev\com-kit\src\Core\Data\usb.ids";
+            var path = GetUsbFilePath();
             VendorInfo? currentVendor = null;
 
             foreach(var line in File.ReadAllLines(path))
