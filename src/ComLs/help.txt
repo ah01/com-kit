@@ -1,0 +1,9 @@
+﻿ComLs print information abou Serial Ports on local computer.
+
+Options:
+
+  -a  ... Print detail information
+  -v  ... Print all available information
+  -n  ... Print only list of ports
+  -o  ... Check if port is open
+  

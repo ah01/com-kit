@@ -23,5 +23,17 @@ namespace ComKit.Core.Tests.Cli
             Assert.True(ap.CheckFlag("b"));
             Assert.False(ap.CheckFlag("c"));
         }
+
+        [Test]
+        public void MultiCharFlags()
+        {
+            ap.Parse(new[] { "-ab", "/cd", "e" });
+
+            Assert.True(ap.CheckFlag("a"));
+            Assert.True(ap.CheckFlag("b"));
+            Assert.True(ap.CheckFlag("c"));
+            Assert.True(ap.CheckFlag("d"));
+            Assert.False(ap.CheckFlag("e"));
+        }
     }
 }

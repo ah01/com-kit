@@ -2,38 +2,53 @@
 using ComKit.Core.Cli;
 using System;
 using System.Linq;
+using System.Reflection;
 
-namespace ComLs
+namespace ComKit.ComLs
 {
     class Program
     {
-
-        /*
-        
-            Flags:
-
-                -n  ... names only
-                -a  ... all information detail
-                -v  ... verbose detail
-                -o  ... check if port is open
-
-        */
-
         static void Main(string[] args)
         {
             var parser = new ArgumentsParser();
             parser.Parse(args);
+            
+            if (parser.CheckFlag("h") || parser.CheckFlag("?"))
+            {
+                PrinteHelp();
+                return;
+            }
 
             var detectOpenPorts = parser.CheckFlag("o");
+            var verbose = parser.CheckFlag("v");
 
             if (parser.CheckFlag("a"))
             {
-                PrintDetailList(detectOpenPorts);
+                PrintDetailList(detectOpenPorts, verbose);
+            }
+            else if (parser.CheckFlag("n"))
+            {
+                PrintOnlyNames();
             }
             else
             {
                 PrintBasicList();
             }
+        }
+
+        private static void PrinteHelp()
+        {
+            var ass = Assembly.GetExecutingAssembly();
+            var ns = ass.GetTypes().Select(t => t.Namespace).FirstOrDefault();
+            
+            using (var stream = ass.GetManifestResourceStream(ns + ".help.txt"))
+            {
+                using (var reader = new System.IO.StreamReader(stream))
+                {
+                    var help = reader.ReadToEnd();
+                    Console.WriteLine(help.Trim());
+                }
+            }    
         }
 
         private static void PrintOnlyNames()
@@ -63,7 +78,7 @@ namespace ComLs
             }
         }
 
-        private static void PrintDetailList(bool detectOpen)
+        private static void PrintDetailList(bool detectOpen, bool verbose)
         {
             var p = SerialPortList.GetDetailList();
 
@@ -91,20 +106,33 @@ namespace ComLs
                     }
                 }
 
-                Console.WriteLine($"  Name          : {x.FullName}");
+                if (verbose)
+                {
+                    Console.WriteLine($"  Name          : {x.FullName}");
+                }
+
                 Console.WriteLine($"  Description   : {x.Description}");
                 Console.WriteLine($"  Manufacturer  : {x.Manufacturer}");
-                Console.WriteLine($"  Service       : {x.Service}");
-                Console.WriteLine($"  Status        : {x.Status}");
-                Console.WriteLine($"  DeviceID      : {x.DeviceID}");
-                Console.WriteLine($"  ClassGuid     : {x.ClassGuid}");
+
+                if (verbose)
+                {
+                    Console.WriteLine($"  Service       : {x.Service}");
+                    Console.WriteLine($"  Status        : {x.Status}");
+                    Console.WriteLine($"  DeviceID      : {x.DeviceID}");
+                    Console.WriteLine($"  ClassGuid     : {x.ClassGuid}");
+                }
+
                 Console.WriteLine($"  Is USB device : {(x.IsUsbDevice ? "YES" : "NO")}");
 
                 if (x.IsUsbDevice)
                 {
                     Console.WriteLine();
-                    Console.WriteLine($"  USB VID       : {x.GetUsbVID():X}");
-                    Console.WriteLine($"  USB PID       : {x.GetUsbPID():X}");
+
+                    if (verbose)
+                    {
+                        Console.WriteLine($"  USB VID       : {x.GetUsbVID():X}");
+                        Console.WriteLine($"  USB PID       : {x.GetUsbPID():X}");
+                    }
                     Console.WriteLine($"  USB Vendor    : {x.GetUsbVendorName()}");
                     Console.WriteLine($"  USB Device    : {x.GetUsbDeviceName()}");
                 }

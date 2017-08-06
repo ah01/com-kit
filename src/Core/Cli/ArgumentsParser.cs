@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace ComKit.Core.Cli
 {
@@ -13,7 +14,10 @@ namespace ComKit.Core.Cli
                 if (a.StartsWith("/", System.StringComparison.Ordinal) || a.StartsWith("-", System.StringComparison.Ordinal))
                 {
                     var f = a.Substring(1);
-                    flags.Add(f);
+
+                    var fs = f.ToCharArray().Select(x => x.ToString());
+
+                    flags.AddRange(fs);
                 }
             }
         }
