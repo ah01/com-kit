@@ -94,7 +94,7 @@ namespace ComKit.Core
             return info;
         }
 
-        private static Regex COM_MATCH = new Regex(@"COM\d+", RegexOptions.Compiled);
+        static readonly Regex COM_MATCH = new Regex(@"COM\d+", RegexOptions.Compiled);
 
         private static string GetPortNameFromFullName(string fullName)
         {

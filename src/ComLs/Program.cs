@@ -1,10 +1,7 @@
 ﻿using ComKit.Core;
 using ComKit.Core.Cli;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ComLs
 {
@@ -27,9 +24,11 @@ namespace ComLs
             var parser = new ArgumentsParser();
             parser.Parse(args);
 
+            var detectOpenPorts = parser.CheckFlag("o");
+
             if (parser.CheckFlag("a"))
             {
-                PrintDetailList(false);
+                PrintDetailList(detectOpenPorts);
             }
             else
             {
