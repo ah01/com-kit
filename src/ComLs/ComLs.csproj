@@ -59,4 +59,7 @@
     <EmbeddedResource Include="help.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>"$(SolutionDir)\post-build.bat" "$(ProjectName)" "$(TargetDir)"</PostBuildEvent>
+  </PropertyGroup>
 </Project>
