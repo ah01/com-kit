@@ -19,7 +19,7 @@ namespace ComKit.Core
 
         private static string GetUsbFilePath()
         {
-            var exePath = System.Reflection.Assembly.GetEntryAssembly().Location;
+            var exePath = System.Reflection.Assembly.GetExecutingAssembly().Location;
             var root = Path.GetDirectoryName(exePath);
 
             return Path.Combine(root, "usb-data/usb.ids");

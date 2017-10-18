@@ -26,11 +26,20 @@ namespace ComMonitor
         // https://msdn.microsoft.com/en-us/library/windows/desktop/aa363480%28v=vs.85%29.aspx
         public const int DBT_DEVNODES_CHANGED = 0x0007; // A device has been added to or removed from the system.
         public const int WmDevicechange = 0x0219; // device change event 
-
+        
         public MainWindow()
         {
-            InitializeComponent();
+            InitializeComponent();            
         }
+
+
+        protected override void OnInitialized(EventArgs e)
+        {
+            base.OnInitialized(e);
+
+            
+        }
+
 
         protected override void OnSourceInitialized(EventArgs e)
         {
@@ -40,6 +49,8 @@ namespace ComMonitor
 
             var source = PresentationSource.FromVisual(this) as HwndSource;
             source.AddHook(WndProc);
+
+            this.Visibility = Visibility.Hidden;
         }
 
         public List<string> ports;
@@ -48,9 +59,8 @@ namespace ComMonitor
         {
             if (msg == WmDevicechange)
             {
-                Debug.Print($"WmDevicechange {wParam} {lParam}");
-
-                Debug.Print($"  " + string.Join(", ", SerialPortList.GetBasicList().Select(x => x.Name)));
+                //Debug.Print($"WmDevicechange {wParam} {lParam}");
+                //Debug.Print($"  " + string.Join(", ", SerialPortList.GetBasicList().Select(x => x.Name)));
 
                 var newPorts = SerialPortList.GetNames();
 
@@ -64,32 +74,48 @@ namespace ComMonitor
                     foreach(var i in added)
                     {
                         Debug.Print("New port " + i);
-
-                        tb.ShowBalloonTip(i + " port detected", "Ahoj", Hardcodet.Wpf.TaskbarNotification.BalloonIcon.Info);
+                        Task.Run(() => Dispatcher.Invoke(() => ShowNewPortNotification(i)));
                     }
 
                     foreach (var i in removed)
                     {
                         Debug.Print("Removed port " + i);
-
-                        tb.ShowBalloonTip(i + " port disconected", "Ahoj", Hardcodet.Wpf.TaskbarNotification.BalloonIcon.Info);
+                        Task.Run(() => Dispatcher.Invoke(() => ShowRemovedPortNotification(i)));
                     }
                 }
-
-
-                //if (wParam == DBT_DEVNODES_CHANGED)
-                //{
-
-                //}
             }
 
 
             return IntPtr.Zero;
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void ShowRemovedPortNotification(string i)
         {
-            tb.ShowBalloonTip("New COM port detected", "Ahoj", Hardcodet.Wpf.TaskbarNotification.BalloonIcon.Info);
+            tb.ShowBalloonTip(i + " removed", "", Hardcodet.Wpf.TaskbarNotification.BalloonIcon.Info);
+        }
+
+        private void ShowNewPortNotification(string i)
+        {
+            var port = SerialPortList.GetDetailList().FirstOrDefault(x => x.Name == i);
+
+            if (port == null)
+            {
+                throw new Exception("Missing details!");
+            }
+
+            var note = $"{port.Manufacturer}";
+
+            if (port.IsUsbDevice)
+            {
+                note += $"\n({port.GetUsbVendorName()}, {port.GetUsbDeviceName()})";
+            }
+
+            tb.ShowBalloonTip($"{i} detected ({port.Description})", note, Hardcodet.Wpf.TaskbarNotification.BalloonIcon.Info);
+        }
+
+        private void MenuItemExit_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
         }
     }
 }

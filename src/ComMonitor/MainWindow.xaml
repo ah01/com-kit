@@ -4,50 +4,23 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:tb="http://www.hardcodet.net/taskbar"
-        xmlns:local="clr-namespace:ComMonitor"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
-    <Grid>
+        Title="MainWindow" Height="0" Width="0" WindowStyle="None">
+    <DockPanel>
+
         <!-- https://www.codeproject.com/Articles/36468/WPF-NotifyIcon -->
         <tb:TaskbarIcon
             Name="tb"
             IconSource="/Icons/port.ico"
             ToolTipText="Serial Port Monitor">
-
             <tb:TaskbarIcon.ContextMenu>
-                <ContextMenu>
+                <ContextMenu Name="menu">
                     <MenuItem Header="First Menu Item" />
-                    <MenuItem Header="Second Menu Item" />
+                    <Separator />
+                    <MenuItem Header="Exit" Click="MenuItemExit_Click" />
                 </ContextMenu>
             </tb:TaskbarIcon.ContextMenu>
-
-            <tb:TaskbarIcon.TrayPopup>
-                <Border
-
-      Background="Black"
-
-      BorderBrush="Gray"
-
-      BorderThickness="1"
-
-      CornerRadius="0"
-
-      Width="160"
-
-      Height="400">
-                    <Button
-
-        Content="Click Me!"
-
-        HorizontalAlignment="Center"
-
-        VerticalAlignment="Center" />
-                </Border>
-            </tb:TaskbarIcon.TrayPopup>
-
         </tb:TaskbarIcon>
 
-        <Button Content="Button" HorizontalAlignment="Left" Margin="141,111,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click"/>
-
-    </Grid>
+    </DockPanel>
 </Window>
