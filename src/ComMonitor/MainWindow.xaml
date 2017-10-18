@@ -15,8 +15,8 @@
             ToolTipText="Serial Port Monitor">
             <tb:TaskbarIcon.ContextMenu>
                 <ContextMenu Name="menu">
-                    <MenuItem Header="First Menu Item" />
-                    <Separator />
+                    <!--<MenuItem Header="First Menu Item" />
+                    <Separator />-->
                     <MenuItem Header="Exit" Click="MenuItemExit_Click" />
                 </ContextMenu>
             </tb:TaskbarIcon.ContextMenu>
